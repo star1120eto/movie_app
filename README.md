@@ -22,3 +22,11 @@ npm run dev
 
 ## XAMPP
 Apache・Mysql start
+D:\xampp\apache_start.bat
+D:\xampp\mysql_start.bat
+
+
+# 開発環境の終了
+
+D:\xampp\apache_stop.bat
+D:\xampp\mysql_stop.bat
