@@ -61,11 +61,11 @@ export async function getServerSideProps(context) {
     const { media_type, media_id } = context.params
     try {
         const jpResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=ja-JP`);
-        let combinedData = { ...jpResponse.data }
+        let combinedData = { ...jpResponse.data };
 
         if (!jpResponse.data.overview) {
             const enResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
-            combinedData.overview = enResponse.data.overview
+            combinedData.overview = enResponse.data.overview;
         }
 
         return {
