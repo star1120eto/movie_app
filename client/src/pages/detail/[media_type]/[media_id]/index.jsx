@@ -1,11 +1,22 @@
 import React from 'react'
 import axios from "axios";
 import { Box, Container, Grid, Typography } from '@mui/material';
+import AppLayout from '@/components/Layouts/AppLayout';
+import Head from 'next/head';
 
 const Detail = ({ detail }) => {
     console.log(detail)
 
     return (
+        <AppLayout
+        header={
+            <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                Detail
+            </h2>
+        }>
+        <Head>
+            <title>Laravel - Detail</title>
+        </Head>
         <Box
             sx={{
                 height: { xs: "auto", md: "70vh" },
@@ -53,6 +64,8 @@ const Detail = ({ detail }) => {
                 </Grid>
             </Container>
         </Box>
+
+        </AppLayout>
     )
 }
 
