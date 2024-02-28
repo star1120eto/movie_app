@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from "axios";
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 
 const Detail = ({ detail }) => {
     console.log(detail)
@@ -8,7 +8,11 @@ const Detail = ({ detail }) => {
     return (
         <Box
             sx={{
-                height: "70vh", bgcolor: "orange" , position: "relative"
+                height: { xs: "auto", md: "70vh" },
+                bgcolor: "orange",
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
             }}
         >
             <Box
@@ -19,7 +23,7 @@ const Detail = ({ detail }) => {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    backgroundSize: "center",
+                    backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
 
@@ -32,15 +36,20 @@ const Detail = ({ detail }) => {
                         right: 0,
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                         backdropFilter: 'blur(10px)'
-
                     }
                 }}
             />
 
-            <Container>
-                <Grid>
-                    <Grid item>ポスター画像</Grid>
-                    <Grid item>作品情報</Grid>
+            <Container sx={{ zIndex: 1 }}>
+                <Grid sx={{ color: "white" }} container alignItems={"center"}>
+                    <Grid item md={4} sx={{ display: "flex", justifyContent: "center" }}>
+                        <img width={"70%"} src={`https://image.tmdb.org/t/p/original${detail.poster_path}`} alt="" />
+                    </Grid>
+                    <Grid item md={8}>
+                        <Typography variant='h4' paragraph>{detail.title}</Typography>
+                        <Typography paragraph>{detail.overview}</Typography>
+                        <Typography variant='h6'>公開日:{detail.release_date}</Typography>
+                    </Grid>
                 </Grid>
             </Container>
         </Box>
@@ -51,11 +60,16 @@ const Detail = ({ detail }) => {
 export async function getServerSideProps(context) {
     const { media_type, media_id } = context.params
     try {
-        const response = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=ja-JP`);
-        const fetchData = response.data;
+        const jpResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=ja-JP`);
+        let combinedData = { ...jpResponse.data }
+
+        if (!jpResponse.data.overview) {
+            const enResponse = await axios.get(`https://api.themoviedb.org/3/${media_type}/${media_id}?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
+            combinedData.overview = enResponse.data.overview
+        }
 
         return {
-            props: { detail: fetchData }
+            props: { detail: combinedData }
         }
     } catch (error) {
         return { notFaund: true }
