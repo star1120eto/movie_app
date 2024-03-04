@@ -3,6 +3,7 @@ import axios from "axios";
 import { Box, Container, Grid, Typography } from '@mui/material';
 import AppLayout from '@/components/Layouts/AppLayout';
 import Head from 'next/head';
+import SearchBar from '@/components/SearchBar';
 
 const Detail = ({ detail }) => {
     console.log(detail)
@@ -17,6 +18,9 @@ const Detail = ({ detail }) => {
         <Head>
             <title>Laravel - Detail</title>
         </Head>
+
+        {/* <SearchBar /> */}
+
         <Box
             sx={{
                 height: { xs: "auto", md: "70vh" },
